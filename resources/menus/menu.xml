@@ -1,0 +1,6 @@
+<menu2 id="MainMenu" title="@Strings.MainMenuTitle">
+    <menu-item id="item_1" label="@Strings.menu_label_1" subLabel="45 sec" />
+    <menu-item id="item_2" label="@Strings.menu_label_2" subLabel="5 sec"/>
+    <menu-item id="item_3" label="@Strings.menu_label_3" subLabel="2 times" />
+</menu2>
+

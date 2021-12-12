@@ -1,0 +1,21 @@
+<strings>
+    <string id="AppName">Plank</string>
+
+    <string id="prompt">Click the menu button</string>
+
+    <string id="plankTimeTitle">Time for one plank (sec)</string>
+    <string id="restTimeTitle">Time to change plank (sec)</string>
+    <string id="repeatTitle">Repeat set (times)</string>
+
+    <string id="MyNumberTitle">MyNumberTitle 1</string>
+    <string id="MyNumberPrompt">MyNumberPrompt 1</string>
+    <string id="MyNumberError">MyNumberError 1</string>
+    <string id="ScreenSleepTitle">ScreenSleepTitle 1</string>
+    <string id="UsernameTitle">UsernameTitle 1</string>
+
+    <string id="MainMenuTitle">Settings</string>
+    <string id="menu_label_1">Plank time</string>
+    <string id="menu_label_2">Rest time</string>
+    <string id="menu_label_3">Repeat times</string>
+    
+</strings>
