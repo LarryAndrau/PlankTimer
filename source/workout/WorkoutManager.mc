@@ -20,8 +20,8 @@ class WorkoutManager {
             new WorkoutElement("revers plank", Rez.Drawables.PlankNorm, false),
             new WorkoutElement("corner plank", Rez.Drawables.PlankNormc, false),
             new WorkoutElement("boat plank", Rez.Drawables.PlankNorm, false),
-            new WorkoutElement("spider plank", Rez.Drawables.PlankNormc, false),
-            new WorkoutElement("spider move", Rez.Drawables.PlankNorm, false)
+            new WorkoutElement("spider move", Rez.Drawables.PlankNorm, false),
+            new WorkoutElement("spider plank", Rez.Drawables.PlankNormc, false)
             ];
     }
     
@@ -38,6 +38,13 @@ class WorkoutManager {
         return isFinish;
     }
 
+    function restart()
+    {
+	    isRestMode = false;
+        currentIndex = 0;
+        workouts[currentIndex].setRestMode(isRestMode);
+    }
+    
     function moveNext()
     {
 	    isRestMode = !isRestMode;
@@ -54,30 +61,33 @@ class WorkoutManager {
 		if(Attention has :playTone){
 			Attention.playTone(Attention.TONE_START);
 		}
-/*		if(Attention has :vibrate){
-			var vibrateData = [ new Attention.VibeProfile(  100, duration ) ];
-			Attention.vibrate( vibrateData );
-		}
-        */
+		vibrate(1500);      
 	}
 
 	function stopBuzz() {
 		if(Attention has :playTone){
 			Attention.playTone(Attention.TONE_STOP);
 		}
-		//vibrate(1500);
+		vibrate(1500);
 	}
 
 	function endBuzz() {
 		if(Attention has :playTone){
 			Attention.playTone(Attention.TONE_SUCCESS);
 		}
-		//vibrate(1500);
+		vibrate(1500);
 	}
     
 	function beep() {
 		if(Attention has :playTone){
 			Attention.playTone(Attention.TONE_LOUD_BEEP);
+		}
+	}	
+    
+    function vibrate(duration) {
+		if(Attention has :vibrate){
+			var vibrateData = [ new Attention.VibeProfile(  100, duration ) ];
+			Attention.vibrate( vibrateData );
 		}
 	}
 }

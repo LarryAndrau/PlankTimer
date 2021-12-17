@@ -30,6 +30,9 @@ class PlankView extends Ui.View {
 		if (isFirstTime) {
             isFirstTime = false;
         }
+	
+		sec_total = Application.Properties.getValue("plankTime");
+		sec_current = sec_total;
 		WatchUi.requestUpdate();
     }
 

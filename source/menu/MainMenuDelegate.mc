@@ -43,34 +43,3 @@ class MainMenuDelegate extends Ui.Menu2InputDelegate  {
         }
     }     
 }
-
-class MyNumberPickerDelegate extends Ui.NumberPickerDelegate {
-    function initialize() {
-        NumberPickerDelegate.initialize();
-    }
-    
-    function onSelect(menuItem) {
-        //Application.getApp().setProperty( "plankTime", menuItem );
-        WatchUi.requestUpdate();
-    }
-
-    function onNumberPicked(value) {
-        time = value; // e.g. 1000f
-        Application.getApp().setProperty( "plankTime", value );
-    }
-    
-    function onCancel() {
-        Ui.popView(Ui.SLIDE_IMMEDIATE);
-    }
-
-    function onAccept(values) {
-        /*
-        var duration = values[0];
-        if (Log.isDebugEnabled()) {
-            Log.debug("Exercise duration selected: " + duration);
-        }
-        Prefs.setExerciseDuration(duration);
-*/
-        Ui.popView(Ui.SLIDE_IMMEDIATE);
-    }
-}
