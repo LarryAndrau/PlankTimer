@@ -3,6 +3,8 @@ using Toybox.Graphics as Gfx;
 using Toybox.System as System;
 using Toybox.Lang;
 
+var isShowPlay = false;
+
 class PlankView extends Ui.View {
 
 	var isFirstTime = true;	
@@ -77,6 +79,11 @@ class PlankView extends Ui.View {
 
 		var image = Application.loadResource( mgr.getCurrentWorkout().icon ) as BitmapResource;
 		dc.drawBitmap( dc.getWidth()/2 - 75, dc.getHeight()/2 - 20 , image );
+
+		if (isShowPlay) {
+			var playImage = Application.loadResource( Rez.Drawables.PlayIcon ) as BitmapResource;
+			dc.drawBitmap( dc.getWidth()/2 - 40, dc.getHeight()/2 - 50, playImage );
+        }
     }
 
     function drawArc(dc, counter, max, thin){

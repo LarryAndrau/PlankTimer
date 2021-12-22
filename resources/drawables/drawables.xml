@@ -2,4 +2,6 @@
     <bitmap id="LauncherIcon" filename="launcher_icon.png" />
     <bitmap id="PlankNorm" filename="plank_small.png" />
     <bitmap id="PlankNormc" filename="plank_color.png" />
+    <bitmap id="Play32Icon" filename="play-32.png" />
+    <bitmap id="PlayIcon" filename="play.png" />
 </drawables>
