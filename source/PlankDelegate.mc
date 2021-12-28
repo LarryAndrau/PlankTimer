@@ -46,16 +46,19 @@ class PlankDelegate extends WatchUi.BehaviorDelegate {
             sec_current -= 1;
         }else{
             myTimer.stop();
-            session.addLap();
+            //session.addLap();
             if(!mgr.isFinish()){
                 mgr.moveNext();
                 currentWorkout = mgr.getCurrentWorkout();
                 sec_current = currentWorkout.time();
-                myTimer.start(method(:timerCallback), 1000, true);
+                //if(session != null && session.isRecording()){
+                    myTimer.start(method(:timerCallback), 1000, true);
+                //}
             }
             else{
                 repeatTimes -= 1;
                 if(repeatTimes > 0){
+                    session.addLap();
                     System.println("repeatTimes: " + repeatTimes);
                     var callBack = self.method(:onReturnAfterPause);
                     WatchUi.pushView( new MessageView("Press Start", "to continue"), new MessageDelegate(callBack), WatchUi.SLIDE_UP);
@@ -70,7 +73,14 @@ class PlankDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onBack(){
-        System.println("onBack");       
+        System.println("onBack");  
+        //var message = "Stop and quit?";
+        //var dialog = new WatchUi.Confirmation(message);
+        WatchUi.pushView(
+            new CancelConfirmationMenu(),
+            new CancelConfirmationDelegate(),
+            WatchUi.SLIDE_IMMEDIATE
+        );     
         return true;
     }
 

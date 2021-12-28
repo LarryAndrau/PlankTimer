@@ -1,32 +1,21 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Application as App;
 
-//! Main menu for CIQ3 devices
-//! Replaces old resource menus/main.xml
 class MainMenu extends Ui.Menu2 {
     hidden var plankTimeItem;
     hidden var restTimeItem;
     hidden var repeatTimesItem;
-    
-    hidden var time;
 
     function initialize() {
         Menu2.initialize({});
 
-        var label;
-        var title = "Settings";
-        self.setTitle(title);
- 
-        label = "Plank time";
-        plankTimeItem = new Ui.MenuItem(label, null, "plankTimeItem", null);
-        self.addItem(plankTimeItem);
-
-        label = "Rest time";
-        restTimeItem = new Ui.MenuItem(label, null, "restTimeItem", null);
-        self.addItem(restTimeItem);
-
-        label = "Repeat";
-        repeatTimesItem = new Ui.MenuItem(label, null, "repeatTimesItem", null);
-        self.addItem(repeatTimesItem);       
+        self.setTitle( App.loadResource( Rez.Strings.MainMenuTitle ) as String );
+        plankTimeItem = new Ui.MenuItem( App.loadResource( Rez.Strings.MainMenuPlank ), null, "plankTimeItem", null);
+        self.addItem( plankTimeItem );
+        restTimeItem = new Ui.MenuItem( App.loadResource( Rez.Strings.MainMenuRest ), null, "restTimeItem", null);
+        self.addItem( restTimeItem );
+        repeatTimesItem = new Ui.MenuItem( App.loadResource( Rez.Strings.MainMenuRepeat ), null, "repeatTimesItem", null);
+        self.addItem( repeatTimesItem );       
     }
 
     function onShow() {
@@ -35,18 +24,8 @@ class MainMenu extends Ui.Menu2 {
     }
 
     function refreshSubLabels() {
-        var subLabel;
-
-        time = Application.Properties.getValue("plankTime");
-        subLabel = time.toString() + " sec";
-        plankTimeItem.setSubLabel(subLabel);
-
-        time = Application.Properties.getValue("restTime");
-        subLabel = time.toString() + " sec";
-        restTimeItem.setSubLabel(subLabel);
-
-        time = Application.Properties.getValue("repeat");
-        subLabel = time.toString() + " times";
-        repeatTimesItem.setSubLabel(subLabel);
+        plankTimeItem.setSubLabel( App.Properties.getValue("plankTime").toString() + " sec" );
+        restTimeItem.setSubLabel( App.Properties.getValue("restTime").toString() + " sec" );
+        repeatTimesItem.setSubLabel( App.Properties.getValue("repeat").toString() + " times" );
     }
 }

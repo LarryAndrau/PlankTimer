@@ -14,8 +14,15 @@
     <string id="UsernameTitle">UsernameTitle 1</string>
 
     <string id="MainMenuTitle">Settings</string>
-    <string id="menu_label_1">Plank time</string>
-    <string id="menu_label_2">Rest time</string>
-    <string id="menu_label_3">Repeat times</string>
+    <string id="MainMenuPlank">Plank time</string>
+    <string id="MainMenuRest">Rest time</string>
+    <string id="MainMenuRepeat">Repeat times</string>
+ 
+    <string id="EndMenuTitle">Save workout</string>
+    <string id="EndMenuSave">Save</string>
+    <string id="EndMenuDiscard">Discard</string>
     
+    <string id="CancelMenuTitle">Quit?</string>
+    <string id="MenuYes">Yes</string>
+    <string id="MenuNo">No</string>
 </strings>
