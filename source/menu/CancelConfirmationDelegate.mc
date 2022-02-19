@@ -22,11 +22,12 @@ class CancelConfirmationDelegate extends Ui.Menu2InputDelegate  {
         var itemId = item.getId();
         var callBack = self.method(:timerCallback);
         if(itemId.equals("MenuYes")){
+            myTimer.stop();
             if(session != null && session.isRecording()){
                 session.stop();
                 session.discard();
             }
-            myEndTimer.start(callBack, 1000, true);
+            myEndTimer.start(callBack, 3000, true);
             Ui.pushView( new MessageView("workout", "discarded"), new MessageDelegate(callBack), WatchUi.SLIDE_UP);        
    	    } else if (itemId.equals("MenuNo")) {
             Ui.popView(Ui.SLIDE_IMMEDIATE);

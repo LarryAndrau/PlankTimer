@@ -6,10 +6,9 @@ using Toybox.Timer;
 
 var sec_current;
 var session = null;
+var myTimer;
 
 class PlankDelegate extends WatchUi.BehaviorDelegate {
-	
-    hidden var myTimer;
     hidden var mgr;
     hidden var currentWorkout;    
     hidden var repeatTimes;
@@ -22,7 +21,7 @@ class PlankDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onMenu() as Boolean {
-        WatchUi.pushView( new MainMenu(), new MainMenuDelegate(), WatchUi.SLIDE_UP);
+        WatchUi.pushView( new MainMenu(), new MainMenuDelegate(mgr), WatchUi.SLIDE_UP);
         return true;
     }
 

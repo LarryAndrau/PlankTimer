@@ -57,9 +57,18 @@ class PlankView extends Ui.View {
 	
    	    dc.setColor(Gfx.COLOR_BLACK,Gfx.COLOR_TRANSPARENT);
 
-		dc.drawText(dc.getWidth()/2, dc.getHeight()*0.175 + 30, Gfx.FONT_SYSTEM_LARGE,
-			sec_current.toString(),
-			Gfx.TEXT_JUSTIFY_VCENTER |Gfx.TEXT_JUSTIFY_CENTER);
+		if (mgr.getCurrentWorkout().isRestMode) {
+			dc.drawText(dc.getWidth()/2, dc.getHeight()*0.175 + 30, Gfx.FONT_SYSTEM_LARGE,
+				"next",
+				Gfx.TEXT_JUSTIFY_VCENTER |Gfx.TEXT_JUSTIFY_CENTER);
+        } else {
+			dc.drawText(dc.getWidth()/2, dc.getHeight()*0.175 + 30, 
+				Gfx.FONT_NUMBER_HOT,
+			//	Gfx.FONT_SYSTEM_LARGE,
+				sec_current.toString(),
+				Gfx.TEXT_JUSTIFY_VCENTER |Gfx.TEXT_JUSTIFY_CENTER);
+		}		
+
 
 		dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
   	    
@@ -74,7 +83,7 @@ class PlankView extends Ui.View {
 			dc.getWidth()/2, 
 			dc.getHeight()*0.825 + 7, 
 			Gfx.FONT_SMALL, 
-			(mgr.currentIndex+1).toString() + "/" + mgr.workouts.size(),
+			(mgr.getDisplayIndex()+1).toString() + "/" + mgr.enabledSize(),
 		   	Gfx.TEXT_JUSTIFY_VCENTER |Gfx.TEXT_JUSTIFY_CENTER);
 
 		var image = Application.loadResource( mgr.getCurrentWorkout().icon ) as BitmapResource;

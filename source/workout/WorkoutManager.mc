@@ -6,31 +6,77 @@ using Toybox.Lang;
 
 class WorkoutManager {
 
-    var currentIndex = 0;
-    var workouts as Lang.Array<WorkoutElement>;
-
+    hidden var currentIndex = 0;
+    hidden var workouts as Lang.Array<WorkoutElement>;
     hidden var isRestMode = false;
 
     function initialize() {
 
 	    workouts = [
-            new WorkoutElement("basic plank", Rez.Drawables.PlankNormc, false),
-            new WorkoutElement("left plank", Rez.Drawables.PlankNorm, false),
-            new WorkoutElement("right plank", Rez.Drawables.PlankNormc, false),
-            new WorkoutElement("revers plank", Rez.Drawables.PlankNorm, false),
-            new WorkoutElement("corner plank", Rez.Drawables.PlankNormc, false),
-            new WorkoutElement("boat plank", Rez.Drawables.PlankNorm, false),
-            new WorkoutElement("spider move", Rez.Drawables.PlankNorm, false),
-            new WorkoutElement("spider plank", Rez.Drawables.PlankNormc, false)
+            new WorkoutElement("basic plank", Rez.Drawables.PlankSimple, false, 1),
+            new WorkoutElement("left plank", Rez.Drawables.PlankNorm, false, 2),
+            new WorkoutElement("right plank", Rez.Drawables.PlankNormc, false, 3),
+            new WorkoutElement("revers plank", Rez.Drawables.PlankNorm, false, 4),
+            new WorkoutElement("corner plank", Rez.Drawables.PlankNormc, false, 5),
+            new WorkoutElement("boat plank", Rez.Drawables.PlankNorm, false, 6),
+            new WorkoutElement("spider move", Rez.Drawables.PlankNorm, false, 7),
+            new WorkoutElement("spider plank", Rez.Drawables.PlankNormc, false, 8)
             ];
     }
-    
-    function getCurrentWorkout()
+
+    function getCurrentIndex()
     {
+        return currentIndex;
+    }  
+
+    function getDisplayIndex()
+    {
+        var displayIndex = 0;
+        for( var i = 0; i < workouts.size(); i += 1 ) {
+            if( i == currentIndex )
+            {
+                return displayIndex;
+            }            
+            if( workouts[i].isEnabled )
+            {
+                displayIndex = displayIndex + 1;
+            }
+        }
+        return displayIndex;
+    }  
+
+    function enabledSize()
+    {
+        var size = 0;
+        for( var i = 0; i < workouts.size(); i += 1 ) {
+            if( workouts[i].isEnabled )
+            {
+                size = size + 1;
+            }
+        }
+        return size;
+    }    
+
+    function size()
+    {
+        return workouts.size();
+    }
+
+    function getCurrentWorkout()
+    {        
+        if(!workouts[currentIndex].isEnabled){
+            currentIndex = currentIndex + 1;
+        }
         return workouts[currentIndex];
     }
 
-    function isFinish(){
+    function getWorkoutByIndex(index)
+    {
+        return workouts[index];
+    }
+
+    function isFinish()
+    {
         var isFinish = currentIndex >= (workouts.size()-1) && !workouts[currentIndex].isRestMode;
         if (isFinish){
             endBuzz();

@@ -5,34 +5,33 @@ using Toybox.Application;
 using Toybox.UserProfile;
 using Toybox.Timer;
 
-class EndMenuDelegate extends Ui.Menu2InputDelegate  {
-    hidden var myEndTimer;
+class WorkoutsMenuDelegate extends Ui.Menu2InputDelegate  {
+    hidden var mgr;
 
-    function initialize() {
+    function initialize(mgr) {
         Menu2InputDelegate.initialize();
-        myEndTimer = new Timer.Timer();
+        self.mgr = mgr;
     }
 
-    function timerCallback() {
-        session = null; 
-        System.exit();
+    function onBack() {
+        Ui.popView(Ui.SLIDE_IMMEDIATE);
     }
 
     function onSelect(item){
         var itemId = item.getId();
-        var callBack = self.method(:timerCallback);
-        if(itemId.equals("saveItem")){
-            myTimer.stop();
+       
+        var wMenu = new ElementMenu(self.mgr, itemId);
+        var wdMenu = new ElementMenuDelegate(self.mgr, itemId);
+        Ui.pushView(wMenu, wdMenu, Ui.SLIDE_IMMEDIATE );     
+
+/*        if(itemId.equals("saveItem")){
             session.save();             
-            myEndTimer.start(method(:timerCallback), 5000, true);       
             Ui.pushView( new MessageView("workout", "saved"), new MessageDelegate(callBack), WatchUi.SLIDE_UP);               
    	    } else if (itemId.equals("resumeItem")) {
             Ui.popView(Ui.SLIDE_IMMEDIATE);
    	    } else if (itemId.equals("discardItem")) {
-            myTimer.stop();
             session.discard();
-            myEndTimer.start(method(:timerCallback), 5000, true);
             Ui.pushView( new MessageView("workout", "discarded"), new MessageDelegate(callBack), WatchUi.SLIDE_UP);        
-   	    }   
+   	    }   */
     }     
 }

@@ -5,6 +5,7 @@ class MainMenu extends Ui.Menu2 {
     hidden var plankTimeItem;
     hidden var restTimeItem;
     hidden var repeatTimesItem;
+    hidden var workoutsItem;
 
     function initialize() {
         Menu2.initialize({});
@@ -16,6 +17,8 @@ class MainMenu extends Ui.Menu2 {
         self.addItem( restTimeItem );
         repeatTimesItem = new Ui.MenuItem( App.loadResource( Rez.Strings.MainMenuRepeat ), null, "repeatTimesItem", null);
         self.addItem( repeatTimesItem );       
+        workoutsItem = new Ui.MenuItem( App.loadResource( Rez.Strings.EditWorkouts ), null, "workoutsItem", null);
+        self.addItem( workoutsItem );       
     }
 
     function onShow() {

@@ -17,6 +17,7 @@
     <string id="MainMenuPlank">Plank time</string>
     <string id="MainMenuRest">Rest time</string>
     <string id="MainMenuRepeat">Repeat times</string>
+    <string id="EditWorkouts">Edit Workouts</string>
  
     <string id="EndMenuTitle">Save workout</string>
     <string id="EndMenuSave">Save</string>
@@ -25,4 +26,9 @@
     <string id="CancelMenuTitle">Quit?</string>
     <string id="MenuYes">Yes</string>
     <string id="MenuNo">No</string>
+
+    <string id="ElementMenuEnabled">Enabled</string>
+    <string id="ElementMenuBeep">Beep in the middle</string>
+    <string id="ElementMenuIndex">Index</string>
+    
 </strings>

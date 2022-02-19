@@ -5,12 +5,16 @@ using Toybox.System as System;
 class WorkoutElement {
     var name;
     var icon;
+	var index;
 	var isRestMode = false;	
+	var isEnabled = true;	
+	var beepInTheMiddle = false;
     	
-    function initialize (name, icon, isrest) {
+    function initialize (name, icon, isrest, index) {
 		self.name = name;	
 		self.icon = icon;
 		self.isRestMode = isrest;
+		self.index = index;
 	}
 
 	function setRestMode(isRestMode){

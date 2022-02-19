@@ -8,11 +8,13 @@ using Toybox.UserProfile;
 
 class MainMenuDelegate extends Ui.Menu2InputDelegate  {
 	hidden var time;
+    hidden var mgr;
     var myPicker;
     var myValue = 0;
 
-    function initialize() {
+    function initialize(mgr) {
         Menu2InputDelegate.initialize();
+        self.mgr = mgr;
     }
       
     function switchToMainMenu(){
@@ -40,6 +42,14 @@ class MainMenuDelegate extends Ui.Menu2InputDelegate  {
             var roundsPicker = new SettingPickerView("Repeat", [1,2,3,4,5], time - 1);
             var roundsPickerDelegate = new SettingPickerDelegate("repeat", self.method(:switchToMainMenu));
             Ui.pushView(roundsPicker, roundsPickerDelegate, Ui.SLIDE_IMMEDIATE );
+        } else if (itemId.equals("workoutsItem")) {
+            //time = Application.Properties.getValue("repeat");
+            //var roundsPicker = new SettingPickerView("Repeat", [1,2,3,4,5], time - 1);
+            //var roundsPickerDelegate = new SettingPickerDelegate("repeat", self.method(:switchToMainMenu));
+            var wMenu = new WorkoutsMenu(self.mgr);
+            var wdMenu = new WorkoutsMenuDelegate(self.mgr);
+            Ui.pushView(wMenu, wdMenu, Ui.SLIDE_IMMEDIATE );
         }
+        
     }     
 }
