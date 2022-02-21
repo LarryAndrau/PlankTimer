@@ -46,13 +46,10 @@ class SettingPickerDelegate extends Ui.PickerDelegate {
 	function onAccept(values) {
         Application.Properties.setValue(settingsSymbol, values[0] );
 		Ui.popView(Ui.SLIDE_IMMEDIATE);
-		//settings[settingsSymbol] = values[0];
-		//next.invoke();
     }
 
 	function onCancel(){
 		Ui.popView(Ui.SLIDE_IMMEDIATE);
-		//Toybox.System.exit();
 	}
 
 }

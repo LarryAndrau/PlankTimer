@@ -9,12 +9,13 @@ class WorkoutElement {
 	var isRestMode = false;	
 	var isEnabled = true;	
 	var beepInTheMiddle = false;
-    	
-    function initialize (name, icon, isrest, index) {
+
+    function initialize (name, icon, index, isEnabled, beepInTheMiddle) {
 		self.name = name;	
 		self.icon = icon;
-		self.isRestMode = isrest;
 		self.index = index;
+		self.isEnabled = isEnabled;
+		self.beepInTheMiddle = beepInTheMiddle;
 	}
 
 	function setRestMode(isRestMode){

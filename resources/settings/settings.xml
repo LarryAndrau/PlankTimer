@@ -3,10 +3,34 @@
     	<property id="plankTime" type="number">20</property>
     	<property id="restTime" type="number">5</property>
     	<property id="repeat" type="number">2</property>
-    	<property id="myNumber" type="number">5</property>
+    	<property id="index" type="number">5</property>
     	<property id="screenSleep" type="boolean">true</property>
     	<property id="username" type="string">name</property>
     	<property id="appVersion" type="string">1.0</property>
+    	<property id="w1index" type="number">1</property>
+    	<property id="w1isEnabled" type="boolean">true</property>
+    	<property id="w1beepInTheMiddle" type="boolean">false</property>
+    	<property id="w2index" type="number">2</property>
+    	<property id="w2isEnabled" type="boolean">true</property>
+    	<property id="w2beepInTheMiddle" type="boolean">false</property>
+    	<property id="w3index" type="number">3</property>
+    	<property id="w3isEnabled" type="boolean">true</property>
+    	<property id="w3beepInTheMiddle" type="boolean">false</property>
+    	<property id="w4index" type="number">4</property>
+    	<property id="w4isEnabled" type="boolean">true</property>
+    	<property id="w4beepInTheMiddle" type="boolean">false</property>
+    	<property id="w5index" type="number">5</property>
+    	<property id="w5isEnabled" type="boolean">true</property>
+    	<property id="w5beepInTheMiddle" type="boolean">false</property>
+    	<property id="w6index" type="number">6</property>
+    	<property id="w6isEnabled" type="boolean">true</property>
+    	<property id="w6beepInTheMiddle" type="boolean">false</property>
+    	<property id="w7index" type="number">7</property>
+    	<property id="w7isEnabled" type="boolean">true</property>
+    	<property id="w7beepInTheMiddle" type="boolean">false</property>
+    	<property id="w8index" type="number">8</property>
+    	<property id="w8isEnabled" type="boolean">true</property>
+    	<property id="w8beepInTheMiddle" type="boolean">false</property>
     </properties>
     <settings>
 <!--
@@ -34,10 +58,10 @@
             <settingConfig type="numeric" />
         </setting>
         
-        <setting propertyKey="@Properties.myNumber" title="@Strings.MyNumberTitle" prompt="@Strings.MyNumberPrompt">
-            <settingConfig type="numeric" errorMessage="@Strings.MyNumberError" />
+        <setting propertyKey="@Properties.index" title="@Strings.Index">
+            <settingConfig type="numeric" />
         </setting>
-
+        
         <setting propertyKey="@Properties.screenSleep" title="@Strings.ScreenSleepTitle">
             <settingConfig type="boolean" />
         </setting>
