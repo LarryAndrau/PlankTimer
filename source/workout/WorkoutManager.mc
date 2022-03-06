@@ -177,17 +177,17 @@ class WorkoutManager {
         var w1index = Application.Properties.getValue("w1index");       
         var w1isEnabled = Application.Properties.getValue("w1isEnabled");
         var w1beepInTheMiddle = Application.Properties.getValue("w1beepInTheMiddle");
-        workout1 = new WorkoutElement("basic plank", Rez.Drawables.PlankNormc, w1index, w1isEnabled, w1beepInTheMiddle);
+        workout1 = new WorkoutElement("basic plank", Rez.Drawables.Plank1, w1index, w1isEnabled, w1beepInTheMiddle);
 
         var w2index = Application.Properties.getValue("w2index");
         var w2isEnabled = Application.Properties.getValue("w2isEnabled");
         var w2beepInTheMiddle = Application.Properties.getValue("w2beepInTheMiddle");
-        workout2 = new WorkoutElement("left plank", Rez.Drawables.PlankNormc, w2index, w2isEnabled, w2beepInTheMiddle);
+        workout2 = new WorkoutElement("left plank", Rez.Drawables.Plank2, w2index, w2isEnabled, w2beepInTheMiddle);
 
         var w3index = Application.Properties.getValue("w3index");
         var w3isEnabled = Application.Properties.getValue("w3isEnabled");
         var w3beepInTheMiddle = Application.Properties.getValue("w3beepInTheMiddle");
-        workout3 = new WorkoutElement("right plank", Rez.Drawables.PlankNormc, w3index, w3isEnabled, w3beepInTheMiddle);
+        workout3 = new WorkoutElement("right plank", Rez.Drawables.Plank3, w3index, w3isEnabled, w3beepInTheMiddle);
 
         var w4index = Application.Properties.getValue("w4index");
         var w4isEnabled = Application.Properties.getValue("w4isEnabled");
@@ -197,22 +197,22 @@ class WorkoutManager {
         var w5index = Application.Properties.getValue("w5index");
         var w5isEnabled = Application.Properties.getValue("w5isEnabled");
         var w5beepInTheMiddle = Application.Properties.getValue("w5beepInTheMiddle");
-        workout5 = new WorkoutElement("corner plank", Rez.Drawables.PlankNormc, w5index, w5isEnabled, w5beepInTheMiddle);
+        workout5 = new WorkoutElement("corner plank", Rez.Drawables.Plank5, w5index, w5isEnabled, w5beepInTheMiddle);
 
         var w6index = Application.Properties.getValue("w6index"); 
         var w6isEnabled = Application.Properties.getValue("w6isEnabled");
         var w6beepInTheMiddle = Application.Properties.getValue("w6beepInTheMiddle");    
-        workout6 = new WorkoutElement("boat plank", Rez.Drawables.PlankNorm, w6index, w6isEnabled, w6beepInTheMiddle);
+        workout6 = new WorkoutElement("boat plank", Rez.Drawables.Plank6, w6index, w6isEnabled, w6beepInTheMiddle);
 
         var w7index = Application.Properties.getValue("w7index"); 
         var w7isEnabled = Application.Properties.getValue("w7isEnabled");
         var w7beepInTheMiddle = Application.Properties.getValue("w7beepInTheMiddle");    
-        workout7 = new WorkoutElement("spider move", Rez.Drawables.PlankNormc, w7index, w7isEnabled, w7beepInTheMiddle);
+        workout7 = new WorkoutElement("spider move", Rez.Drawables.Plank7, w7index, w7isEnabled, w7beepInTheMiddle);
 
         var w8index = Application.Properties.getValue("w8index"); 
         var w8isEnabled = Application.Properties.getValue("w8isEnabled");
         var w8beepInTheMiddle = Application.Properties.getValue("w8beepInTheMiddle");   
-        workout8 = new WorkoutElement("spider plank", Rez.Drawables.PlankNorm, w8index, w8isEnabled, w8beepInTheMiddle);
+        workout8 = new WorkoutElement("spider plank", Rez.Drawables.Plank7, w8index, w8isEnabled, w8beepInTheMiddle);
 
 	    workouts = [
             workout1,

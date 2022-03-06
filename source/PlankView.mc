@@ -70,7 +70,7 @@ class PlankView extends Ui.View {
 		}		
 
 
-		dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
+		//dc.setColor(Gfx.COLOR_BLUE, Gfx.COLOR_TRANSPARENT);
   	    
 		dc.drawText(
 			dc.getWidth()/2, 

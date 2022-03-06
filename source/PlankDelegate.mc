@@ -20,7 +20,18 @@ class PlankDelegate extends WatchUi.BehaviorDelegate {
         repeatTimes = Application.Properties.getValue("repeat");
     }
 
+    function pause(){
+        session.stop();
+        myTimer.stop();
+    }
+
+    function resume(){
+        session.start();
+        myTimer.start(method(:timerCallback), 1000, true);
+     }
+
     function onMenu() as Boolean {
+        //pause();
         WatchUi.pushView( new MainMenu(), new MainMenuDelegate(mgr), WatchUi.SLIDE_UP);
         return true;
     }
