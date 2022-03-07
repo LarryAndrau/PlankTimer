@@ -13,4 +13,8 @@ class WorkoutsMenu extends Ui.Menu2 {
             self.addItem( new Ui.MenuItem( mgr.getWorkoutByIndex(i).name, null, i , null) );
         }
     }
+        
+    function onHide() as Void {
+        mgr.saveWorkouts();
+    }
 }

@@ -130,6 +130,12 @@ class WorkoutManager {
 		}
 	}	
     
+	function beepDistanceAlert() {
+		if(Attention has :playTone){
+			Attention.playTone(Attention.TONE_INTERVAL_ALERT);
+		}
+	}	
+    
     function vibrate(duration) {
 		if(Attention has :vibrate){
 			var vibrateData = [ new Attention.VibeProfile(  100, duration ) ];
@@ -192,7 +198,7 @@ class WorkoutManager {
         var w4index = Application.Properties.getValue("w4index");
         var w4isEnabled = Application.Properties.getValue("w4isEnabled");
         var w4beepInTheMiddle = Application.Properties.getValue("w4beepInTheMiddle");
-        workout4 = new WorkoutElement("revers plank", Rez.Drawables.PlankNorm, w4index, w4isEnabled, w4beepInTheMiddle);
+        workout4 = new WorkoutElement("revers plank", Rez.Drawables.Plank4, w4index, w4isEnabled, w4beepInTheMiddle);
 
         var w5index = Application.Properties.getValue("w5index");
         var w5isEnabled = Application.Properties.getValue("w5isEnabled");

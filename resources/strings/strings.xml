@@ -24,6 +24,7 @@
     <string id="EndMenuDiscard">Discard</string>
     
     <string id="CancelMenuTitle">Quit?</string>
+    <string id="MenuResume">Resume</string>
     <string id="MenuYes">Yes</string>
     <string id="MenuNo">No</string>
 

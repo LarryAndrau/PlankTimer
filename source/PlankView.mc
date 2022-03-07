@@ -1,7 +1,8 @@
+using Toybox.ActivityRecording;
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.System as System;
-using Toybox.Lang;
+using Toybox.Lang as Lang;
 
 var isShowPlay = false;
 
@@ -11,12 +12,16 @@ class PlankView extends Ui.View {
 
 	hidden var smallFont;
 	hidden var mgr;
+	hidden var plankDelegate;
 	hidden var sec_total;
 
-    function initialize(mgr) {
+    function initialize(mgr, plankDelegate) {
         View.initialize();
     	smallFont = Ui.loadResource(Rez.Fonts.SmallFont);
 		self.mgr = mgr;
+		self.plankDelegate = plankDelegate;
+		sec_total = Application.Properties.getValue("plankTime");
+		sec_current = sec_total;
     }
 
     // Load your resources here
@@ -32,13 +37,22 @@ class PlankView extends Ui.View {
 		if (isFirstTime) {
             isFirstTime = false;
         }
+        if(onPause){
+			plankDelegate.resume();
+        }
+		if(session == null){
+	        sec_total = Application.Properties.getValue("plankTime");
+	        sec_current = sec_total;
+			mgr.loadWorkouts();
+		}
 	
-		sec_total = Application.Properties.getValue("plankTime");
-		sec_current = sec_total;
 		WatchUi.requestUpdate();
     }
 
     function onHide() as Void {
+        if(!onPause){
+			plankDelegate.pause();
+        }
     }
 	
 	function startupTimerCallback() {
@@ -74,30 +88,30 @@ class PlankView extends Ui.View {
   	    
 		dc.drawText(
 			dc.getWidth()/2, 
-			dc.getHeight()*0.825 - 20, 
+			dc.getWidth()*0.825 - 20, 
 			Gfx.FONT_SMALL, 
 			mgr.getCurrentWorkout().name,
 		    Gfx.TEXT_JUSTIFY_VCENTER |Gfx.TEXT_JUSTIFY_CENTER);
   	    
 		dc.drawText(
 			dc.getWidth()/2, 
-			dc.getHeight()*0.825 + 7, 
+			dc.getWidth()*0.825 + 7, 
 			Gfx.FONT_SMALL, 
 			(mgr.getDisplayIndex()+1).toString() + "/" + mgr.enabledSize(),
 		   	Gfx.TEXT_JUSTIFY_VCENTER |Gfx.TEXT_JUSTIFY_CENTER);
 
 		var image = Application.loadResource( mgr.getCurrentWorkout().icon ) as BitmapResource;
-		dc.drawBitmap( dc.getWidth()/2 - 75, dc.getHeight()/2 - 20 , image );
+		dc.drawBitmap( dc.getWidth()/2 - 75, dc.getWidth()/2 - 20 , image );
 
 		if (isShowPlay) {
 			var playImage = Application.loadResource( Rez.Drawables.PlayIcon ) as BitmapResource;
-			dc.drawBitmap( dc.getWidth()/2 - 40, dc.getHeight()/2 - 50, playImage );
+			dc.drawBitmap( dc.getWidth()/2 - 40, dc.getWidth()/2 - 50, playImage );
         }
     }
 
     function drawArc(dc, counter, max, thin){
     	var cx =  dc.getWidth() / 2;
-    	var cy = dc.getHeight() / 2;
+    	var cy = dc.getWidth() / 2;
 		dc.setPenWidth(thin);
 		var arcColor = mgr.getCurrentWorkout().color();
 		dc.setColor( arcColor, Gfx.COLOR_TRANSPARENT );
@@ -107,7 +121,7 @@ class PlankView extends Ui.View {
        		angle = counter * 360 / max;
        	}
        	if(angle > 0){
-       		dc.drawArc( cx, cy, dc.getHeight()/2-thin/2, Gfx.ARC_CLOCKWISE, 90, (360-angle.toLong()+90)%360); 
+       		dc.drawArc( cx, cy, dc.getWidth()/2-thin/2, Gfx.ARC_CLOCKWISE, 90, (360-angle.toLong()+90)%360); 
        	}
     }
 }

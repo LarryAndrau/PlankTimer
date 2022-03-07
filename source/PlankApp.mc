@@ -25,7 +25,8 @@ class PlankApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() as Array<Views or InputDelegates>? {
-        return [ new PlankView(mgr), new PlankDelegate(mgr) ] as Array<Views or InputDelegates>;
+        var plankDelegate = new PlankDelegate(mgr);
+        return [ new PlankView(mgr, plankDelegate), plankDelegate ] as Array<Views or InputDelegates>;
     }
 }
 

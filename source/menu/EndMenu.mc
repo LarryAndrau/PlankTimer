@@ -7,6 +7,7 @@
             Menu2.initialize({});
 
             self.setTitle( App.loadResource( Rez.Strings.EndMenuTitle ) as String );
+            self.addItem( new Ui.MenuItem( App.loadResource( Rez.Strings.MenuResume ), null, "resumeItem", null) );
             self.addItem( new Ui.MenuItem( App.loadResource( Rez.Strings.EndMenuSave ), null, "saveItem", null) );
             self.addItem( new Ui.MenuItem( App.loadResource( Rez.Strings.EndMenuDiscard ), null, "discardItem", null) );
         }

@@ -7,6 +7,7 @@ using Toybox.Timer;
 var sec_current;
 var session = null;
 var myTimer;
+var onPause = false;
 
 class PlankDelegate extends WatchUi.BehaviorDelegate {
     hidden var mgr;
@@ -21,17 +22,22 @@ class PlankDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function pause(){
-        session.stop();
-        myTimer.stop();
+		if((session != null) && session.isRecording()){
+	        session.stop();
+    	    myTimer.stop();
+	        onPause = true;
+		}
     }
 
     function resume(){
-        session.start();
-        myTimer.start(method(:timerCallback), 1000, true);
-     }
+		if(onPause){
+	        session.start();
+	        myTimer.start(method(:timerCallback), 1000, true);
+        	onPause = false;
+		}
+    }
 
     function onMenu() as Boolean {
-        //pause();
         WatchUi.pushView( new MainMenu(), new MainMenuDelegate(mgr), WatchUi.SLIDE_UP);
         return true;
     }
@@ -48,10 +54,16 @@ class PlankDelegate extends WatchUi.BehaviorDelegate {
             isShowPlay = false;
             mgr.startBuzz();
         }
-
+        var sec_total = mgr.getCurrentWorkout().time();
         if(sec_current > 0){
             if(sec_current <= 6 && !mgr.getCurrentWorkout().isRestMode){
                 mgr.beep();
+            }
+            var bim = mgr.getCurrentWorkout().beepInTheMiddle;
+            if( sec_current == sec_total / 2 &&
+                bim &&
+                !mgr.getCurrentWorkout().isRestMode){
+                    mgr.beepDistanceAlert();
             }
             sec_current -= 1;
         }else{
@@ -84,11 +96,9 @@ class PlankDelegate extends WatchUi.BehaviorDelegate {
 
     function onBack(){
         System.println("onBack");  
-        //var message = "Stop and quit?";
-        //var dialog = new WatchUi.Confirmation(message);
         WatchUi.pushView(
-            new CancelConfirmationMenu(),
-            new CancelConfirmationDelegate(),
+            new EndMenu(),
+            new EndMenuDelegate(),
             WatchUi.SLIDE_IMMEDIATE
         );     
         return true;
@@ -96,9 +106,9 @@ class PlankDelegate extends WatchUi.BehaviorDelegate {
 
     function onSelect() { 
         System.println("onSelect");
-        
+
         if (Toybox has :ActivityRecording) { 
-            if ((session == null) || (session.isRecording() == false)) { 
+            if ((session == null) || (!session.isRecording())) { 
                 isShowPlay = true;
                 WatchUi.requestUpdate();
                 session = ActivityRecording.createSession({ 
@@ -110,9 +120,11 @@ class PlankDelegate extends WatchUi.BehaviorDelegate {
                 myTimer.start(method(:timerCallback), 1000, true);       
                 System.println("start recording");
             } else if ((session != null) && session.isRecording()) {
-// todo: pause ???
-//                session.stop();
-
+                WatchUi.pushView(
+                    new EndMenu(),
+                    new EndMenuDelegate(),
+                    WatchUi.SLIDE_IMMEDIATE
+                );     
             }
         }
         return true;
