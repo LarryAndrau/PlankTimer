@@ -7,10 +7,12 @@ using Toybox.Timer;
 
 class EndMenuDelegate extends Ui.Menu2InputDelegate  {
     hidden var myEndTimer;
+    hidden var mgr;
 
-    function initialize() {
+    function initialize(mgr) {
         Menu2InputDelegate.initialize();
         myEndTimer = new Timer.Timer();
+        self.mgr = mgr;
     }
 
     function timerCallback() {

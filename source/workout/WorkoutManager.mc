@@ -18,10 +18,13 @@ class WorkoutManager {
     hidden var workout6;
     hidden var workout7;
     hidden var workout8;
+    hidden var timerCallBack;
+    hidden var repeatTimes;
 
     function initialize() {
         loadWorkouts();
         reorderWorkouts();
+        repeatTimes = Application.Properties.getValue("repeat");
     }
 
     function getCurrentIndex()
@@ -63,7 +66,11 @@ class WorkoutManager {
     }
 
     function getCurrentWorkout()
-    {        
+    {    
+        if(currentIndex >= enabledSize()){
+            return null;
+        }
+
         if(!workouts[currentIndex].isEnabled){
             currentIndex = currentIndex + 1;
         }
@@ -72,16 +79,18 @@ class WorkoutManager {
 
     function getWorkoutByIndex(index)
     {
+        if(currentIndex >= enabledSize()){
+            return null;
+        }
         return workouts[index];
     }
 
     function isFinish()
     {
-        var isFinish = currentIndex >= (workouts.size()-1) && !workouts[currentIndex].isRestMode;
-        if (isFinish){
-            endBuzz();
-        }
-        return isFinish;
+        return 
+            currentIndex >= enabledSize()
+            || (currentIndex >= (workouts.size()-1) 
+                && !workouts[currentIndex].isRestMode);
     }
 
     function restart()
@@ -142,6 +151,56 @@ class WorkoutManager {
 			Attention.vibrate( vibrateData );
 		}
 	}
+
+    function onReturnAfterPause(){
+        restart();
+        var currentWorkout = getCurrentWorkout();
+        sec_current = currentWorkout.time();
+        myTimer.start(timerCallBack, 1000, true);
+    }
+
+    function oneSecondProcessing(timerCallBack) {
+        self.timerCallBack = timerCallBack;
+        var sec_total = getCurrentWorkout().time();
+        if(sec_current > 0){
+            if(sec_current <= 6 && !getCurrentWorkout().isRestMode){
+                beep();
+            }
+            var bim = getCurrentWorkout().beepInTheMiddle;
+            if( sec_current == sec_total / 2 &&
+                bim &&
+                !getCurrentWorkout().isRestMode){
+                    beepDistanceAlert();
+            }
+            sec_current -= 1;
+        }else{
+            myTimer.stop();
+            if(!isFinish()){
+                endBuzz();
+                moveNext();
+                var currentWorkout = getCurrentWorkout();
+                if(currentWorkout != null){
+                    sec_current = currentWorkout.time();
+                    myTimer.start(timerCallBack, 1000, true);
+                }
+                else{
+                    System.println("repeatTimes: " + repeatTimes.toString());
+                    repeatTimes -= 1;
+                    if(repeatTimes > 0){
+                        session.addLap();
+                        System.println("repeatTimes: " + repeatTimes);
+                        var callBack = self.method(:onReturnAfterPause);
+                        WatchUi.pushView( new MessageView("Press Start", "to continue"), new MessageDelegate(callBack), WatchUi.SLIDE_UP);
+                    }else{
+                        session.stop(); 
+                        System.println("stop recording");
+                        WatchUi.pushView( new EndMenu(self), new EndMenuDelegate(self), WatchUi.SLIDE_UP);
+                    }
+                }
+            }
+        }
+    }
+
 
     function saveWorkouts() {
         Application.Properties.setValue("w1index", workout1.index);

@@ -11,14 +11,12 @@ var onPause = false;
 
 class PlankDelegate extends WatchUi.BehaviorDelegate {
     hidden var mgr;
-    hidden var currentWorkout;    
-    hidden var repeatTimes;
+    //hidden var currentWorkout;    
 
     function initialize(mgr) {
         BehaviorDelegate.initialize();
         self.mgr = mgr;
         myTimer = new Timer.Timer();
-        repeatTimes = Application.Properties.getValue("repeat");
     }
 
     function pause(){
@@ -42,65 +40,27 @@ class PlankDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
 
-    function onReturnAfterPause(){
-        mgr.restart();
-        currentWorkout = mgr.getCurrentWorkout();
-        sec_current = currentWorkout.time();
-        myTimer.start(method(:timerCallback), 1000, true);
-    }
-
     function timerCallback() {
         if(isShowPlay){
             isShowPlay = false;
             mgr.startBuzz();
         }
-        var sec_total = mgr.getCurrentWorkout().time();
-        if(sec_current > 0){
-            if(sec_current <= 6 && !mgr.getCurrentWorkout().isRestMode){
-                mgr.beep();
-            }
-            var bim = mgr.getCurrentWorkout().beepInTheMiddle;
-            if( sec_current == sec_total / 2 &&
-                bim &&
-                !mgr.getCurrentWorkout().isRestMode){
-                    mgr.beepDistanceAlert();
-            }
-            sec_current -= 1;
-        }else{
-            myTimer.stop();
-            //session.addLap();
-            if(!mgr.isFinish()){
-                mgr.moveNext();
-                currentWorkout = mgr.getCurrentWorkout();
-                sec_current = currentWorkout.time();
-                //if(session != null && session.isRecording()){
-                    myTimer.start(method(:timerCallback), 1000, true);
-                //}
-            }
-            else{
-                repeatTimes -= 1;
-                if(repeatTimes > 0){
-                    session.addLap();
-                    System.println("repeatTimes: " + repeatTimes);
-                    var callBack = self.method(:onReturnAfterPause);
-                    WatchUi.pushView( new MessageView("Press Start", "to continue"), new MessageDelegate(callBack), WatchUi.SLIDE_UP);
-                }else{
-                    session.stop(); 
-                    System.println("stop recording");
-                    WatchUi.pushView( new EndMenu(), new EndMenuDelegate(), WatchUi.SLIDE_UP);
-                }
-            }
-        }
+        mgr.oneSecondProcessing(method(:timerCallback));
         WatchUi.requestUpdate();
     }
 
     function onBack(){
-        System.println("onBack");  
-        WatchUi.pushView(
-            new EndMenu(),
-            new EndMenuDelegate(),
-            WatchUi.SLIDE_IMMEDIATE
-        );     
+        System.println("onBack");
+        if(session == null){
+            System.exit();
+        }
+        if(session != null && session.isRecording()){
+            WatchUi.pushView(
+                new EndMenu(mgr),
+                new EndMenuDelegate(mgr),
+                WatchUi.SLIDE_IMMEDIATE
+            );     
+        }  
         return true;
     }
 
@@ -121,8 +81,8 @@ class PlankDelegate extends WatchUi.BehaviorDelegate {
                 System.println("start recording");
             } else if ((session != null) && session.isRecording()) {
                 WatchUi.pushView(
-                    new EndMenu(),
-                    new EndMenuDelegate(),
+                    new EndMenu(mgr),
+                    new EndMenuDelegate(mgr),
                     WatchUi.SLIDE_IMMEDIATE
                 );     
             }
