@@ -26,7 +26,7 @@ class PlankView extends Ui.View {
 
     // Load your resources here
     function onLayout(dc as Dc) as Void {
-		sec_total = mgr.getCurrentWorkout().time();
+		sec_total = mgr.getFirstEnabledWorkout().time();
 		sec_current = sec_total;
     }
 
@@ -65,10 +65,10 @@ class PlankView extends Ui.View {
 		if (isFirstTime) {
             // render the startup view (title, version, etc) here...
         }
-/*		if (mgr.isFinish()) {
-            return;
-        }
-  */
+		//if (mgr.isFinish()) {
+        //    return;
+        //}
+  
   	    dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_WHITE);
   	    dc.clear();
   		drawArc(dc, sec_current, mgr.getCurrentWorkout().time(), 20);

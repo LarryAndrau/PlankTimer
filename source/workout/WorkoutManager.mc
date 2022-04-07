@@ -65,21 +65,54 @@ class WorkoutManager {
         return workouts.size();
     }
 
+    function getFirstEnabledWorkout()
+    {
+        System.println("getFirstEnabledWorkout:");
+        for( var i = 0; i < workouts.size(); i += 1 ) {
+            if( workouts[i].isEnabled )
+                {
+                    currentIndex = i;
+                    return workouts[currentIndex];
+                }
+        }
+        return null;
+    }
+
+    function moveNext()
+    {
+        System.println("moveNext: isRestMode " + isRestMode.toString());
+	    isRestMode = !isRestMode;
+        if(isRestMode){
+            for( var i = currentIndex + 1; i < workouts.size(); i += 1 ) {
+                if( workouts[i].isEnabled )
+                {
+                    currentIndex = i;
+                    workouts[currentIndex].setRestMode(isRestMode);
+                    stopBuzz();
+                    return;
+                }
+            }
+            currentIndex = 100;
+        }else{
+            startBuzz();
+            workouts[currentIndex].setRestMode(isRestMode);
+        }
+    }
+
     function getCurrentWorkout()
-    {    
-        if(currentIndex >= enabledSize()){
-            return null;
+    {
+        System.println("getCurrentWorkout, currentIndex = " + currentIndex);
+        if(currentIndex >= size()){
+            return null;//workouts[0];
         }
 
-        if(!workouts[currentIndex].isEnabled){
-            currentIndex = currentIndex + 1;
-        }
         return workouts[currentIndex];
     }
 
     function getWorkoutByIndex(index)
     {
-        if(currentIndex >= enabledSize()){
+        System.println("getWorkoutByIndex, index = " + index);
+        if(currentIndex >= size()){
             return null;
         }
         return workouts[index];
@@ -92,26 +125,7 @@ class WorkoutManager {
             || (currentIndex >= (workouts.size()-1) 
                 && !workouts[currentIndex].isRestMode);
     }
-
-    function restart()
-    {
-	    isRestMode = false;
-        currentIndex = 0;
-        workouts[currentIndex].setRestMode(isRestMode);
-    }
     
-    function moveNext()
-    {
-	    isRestMode = !isRestMode;
-        if(isRestMode){
-            currentIndex = currentIndex + 1;
-            stopBuzz();
-        }else{
-            startBuzz();
-        }
-        workouts[currentIndex].setRestMode(isRestMode);
-    }
-
     function startBuzz() {
 		if(Attention has :playTone){
 			Attention.playTone(Attention.TONE_START);
@@ -153,9 +167,8 @@ class WorkoutManager {
 	}
 
     function onReturnAfterPause(){
-        restart();
-        var currentWorkout = getCurrentWorkout();
-        sec_current = currentWorkout.time();
+        sec_current = getFirstEnabledWorkout().time();
+        workouts[currentIndex].setRestMode(false);
         myTimer.start(timerCallBack, 1000, true);
     }
 
@@ -175,28 +188,40 @@ class WorkoutManager {
             sec_current -= 1;
         }else{
             myTimer.stop();
-            if(!isFinish()){
-                endBuzz();
+            if(isFinish()){
+                System.println("moveNext: " + repeatTimes.toString());
                 moveNext();
                 var currentWorkout = getCurrentWorkout();
-                if(currentWorkout != null){
-                    sec_current = currentWorkout.time();
-                    myTimer.start(timerCallBack, 1000, true);
-                }
-                else{
-                    System.println("repeatTimes: " + repeatTimes.toString());
+                if(currentWorkout == null){
+                    System.println("repeatTimes internal: " + repeatTimes.toString());
+                    endBuzz();
                     repeatTimes -= 1;
                     if(repeatTimes > 0){
-                        session.addLap();
-                        System.println("repeatTimes: " + repeatTimes);
-                        var callBack = self.method(:onReturnAfterPause);
-                        WatchUi.pushView( new MessageView("Press Start", "to continue"), new MessageDelegate(callBack), WatchUi.SLIDE_UP);
+                            session.addLap();
+                            var callBack = self.method(:onReturnAfterPause);
+                            WatchUi.pushView( new MessageView("Press Start", "to continue"), new MessageDelegate(callBack), WatchUi.SLIDE_UP);
                     }else{
-                        session.stop(); 
-                        System.println("stop recording");
-                        WatchUi.pushView( new EndMenu(self), new EndMenuDelegate(self), WatchUi.SLIDE_UP);
+                            session.stop(); 
+                            System.println("stop recording");
+                            WatchUi.pushView( new EndMenu(self), new EndMenuDelegate(self), WatchUi.SLIDE_UP);
                     }
+                    return;
                 }
+                sec_current = currentWorkout.time();
+                myTimer.start(timerCallBack, 1000, true);
+            }else{
+                System.println("repeatTimes: " + repeatTimes.toString());
+                // endBuzz();
+                // repeatTimes -= 1;
+                // if(repeatTimes > 0){
+                //         session.addLap();
+                //         var callBack = self.method(:onReturnAfterPause);
+                //         WatchUi.pushView( new MessageView("Press Start", "to continue"), new MessageDelegate(callBack), WatchUi.SLIDE_UP);
+                // }else{
+                //         session.stop(); 
+                //         System.println("stop recording");
+                //         WatchUi.pushView( new EndMenu(self), new EndMenuDelegate(self), WatchUi.SLIDE_UP);
+                // }
             }
         }
     }
