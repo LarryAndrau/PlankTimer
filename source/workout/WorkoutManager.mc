@@ -120,10 +120,7 @@ class WorkoutManager {
 
     function isFinish()
     {
-        return 
-            currentIndex >= enabledSize()
-            || (currentIndex >= (workouts.size()-1) 
-                && !workouts[currentIndex].isRestMode);
+        return repeatTimes >= 0;
     }
     
     function startBuzz() {
@@ -167,61 +164,49 @@ class WorkoutManager {
 	}
 
     function onReturnAfterPause(){
-        sec_current = getFirstEnabledWorkout().time();
-        workouts[currentIndex].setRestMode(false);
+        currentIndex = 0;
+        moveNext();
+        var currentWorkout = getCurrentWorkout();
+        moveNext();
         myTimer.start(timerCallBack, 1000, true);
     }
 
     function oneSecondProcessing(timerCallBack) {
         self.timerCallBack = timerCallBack;
-        var sec_total = getCurrentWorkout().time();
+        var currentWorkout = getCurrentWorkout();
+
+        var sec_total = currentWorkout.time();
         if(sec_current > 0){
-            if(sec_current <= 6 && !getCurrentWorkout().isRestMode){
+            if(sec_current <= 6 && !currentWorkout.isRestMode){
                 beep();
             }
-            var bim = getCurrentWorkout().beepInTheMiddle;
             if( sec_current == sec_total / 2 &&
-                bim &&
-                !getCurrentWorkout().isRestMode){
+                currentWorkout.beepInTheMiddle &&
+                !currentWorkout.isRestMode){
                     beepDistanceAlert();
             }
             sec_current -= 1;
         }else{
             myTimer.stop();
-            if(isFinish()){
-                System.println("moveNext: " + repeatTimes.toString());
-                moveNext();
-                var currentWorkout = getCurrentWorkout();
-                if(currentWorkout == null){
-                    System.println("repeatTimes internal: " + repeatTimes.toString());
-                    endBuzz();
-                    repeatTimes -= 1;
-                    if(repeatTimes > 0){
-                            session.addLap();
-                            var callBack = self.method(:onReturnAfterPause);
-                            WatchUi.pushView( new MessageView("Press Start", "to continue"), new MessageDelegate(callBack), WatchUi.SLIDE_UP);
-                    }else{
-                            session.stop(); 
-                            System.println("stop recording");
-                            WatchUi.pushView( new EndMenu(self), new EndMenuDelegate(self), WatchUi.SLIDE_UP);
-                    }
-                    return;
-                }
+            System.println("repeatTimes: " + repeatTimes.toString());
+            moveNext();
+            currentWorkout = getCurrentWorkout();
+            if(currentWorkout != null){
                 sec_current = currentWorkout.time();
                 myTimer.start(timerCallBack, 1000, true);
             }else{
                 System.println("repeatTimes: " + repeatTimes.toString());
-                // endBuzz();
-                // repeatTimes -= 1;
-                // if(repeatTimes > 0){
-                //         session.addLap();
-                //         var callBack = self.method(:onReturnAfterPause);
-                //         WatchUi.pushView( new MessageView("Press Start", "to continue"), new MessageDelegate(callBack), WatchUi.SLIDE_UP);
-                // }else{
-                //         session.stop(); 
-                //         System.println("stop recording");
-                //         WatchUi.pushView( new EndMenu(self), new EndMenuDelegate(self), WatchUi.SLIDE_UP);
-                // }
+                repeatTimes -= 1;
+                if(repeatTimes > 0){
+                    //session.addLap();
+                    System.println("repeatTimes: " + repeatTimes);
+                    var callBack = self.method(:onReturnAfterPause);
+                    WatchUi.pushView( new MessageView("Press Start", "to continue"), new MessageDelegate(callBack), WatchUi.SLIDE_UP);
+                }else{
+                    session.stop(); 
+                    System.println("stop recording");
+                    WatchUi.pushView( new EndMenu(self), new EndMenuDelegate(self), WatchUi.SLIDE_UP);
+                }
             }
         }
     }
