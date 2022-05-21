@@ -65,9 +65,9 @@ class PlankView extends Ui.View {
 		if (isFirstTime) {
             // render the startup view (title, version, etc) here...
         }
-		//if (mgr.isFinish()) {
-        //    return;
-        //}
+		if (mgr.isFinish() || mgr.getCurrentWorkout() == null) {
+            return;
+        }
   
   	    dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_WHITE);
   	    dc.clear();
