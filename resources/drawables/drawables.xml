@@ -2,7 +2,6 @@
     <bitmap id="LauncherIcon" filename="40x40.png" />
     <bitmap id="PlankNorm" filename="plank_small.png" />   
     <bitmap id="PlankNormc" filename="plank_color.png" />
-    <bitmap id="PlankSimple" filename="PlankSimple.png" />
     <bitmap id="PlayIcon" filename="play.png" />
     <bitmap id="Plank1" filename="plank_1.png" />   
     <bitmap id="Plank2" filename="plank_2.png" />   

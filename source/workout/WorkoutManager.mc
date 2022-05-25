@@ -120,7 +120,7 @@ class WorkoutManager {
 
     function isFinish()
     {
-        return repeatTimes >= 0;
+        return repeatTimes <= 0;
     }
     
     function startBuzz() {
@@ -165,9 +165,6 @@ class WorkoutManager {
 
     function onReturnAfterPause(){
         currentIndex = 0;
-        moveNext();
-        var currentWorkout = getCurrentWorkout();
-        moveNext();
         myTimer.start(timerCallBack, 1000, true);
     }
 
