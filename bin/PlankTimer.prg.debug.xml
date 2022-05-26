@@ -860,8 +860,8 @@
         <entry arg="true" endPc="268448596" name="index" stackId="1" startPc="268448580"/>
         <entry arg="true" endPc="268448746" name="index" stackId="1" startPc="268448597"/>
         <entry arg="true" endPc="268448746" name="selected" stackId="2" startPc="268448597"/>
-        <entry endPc="268449112" name="rez_cmp_local_text_1028889931" stackId="2" startPc="268448782"/>
         <entry endPc="268449112" name="rez_cmp_local_bitmap_id_monkey" stackId="3" startPc="268448782"/>
+        <entry endPc="268449112" name="rez_cmp_local_text_1177726776" stackId="2" startPc="268448782"/>
         <entry arg="true" endPc="268449113" name="dc" stackId="1" startPc="268448770"/>
     </localVars>
     <annotations>
